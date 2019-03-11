@@ -18,8 +18,8 @@
         var row = document.createElement("div");
         row.className = "row";
         var body = document.getElementById("body").appendChild(row); 
-      for (var i = profiles.length - 1; i >= 0; i--) {
-      	if(profiles[i].gsx$break.$t == 1) {
+      for (var i = 0; i < profiles.length; i++) {
+      	if(profiles[i].gsx$break.$t) {
       		row = document.createElement("div");
       		row.className = "row";
         	body = document.getElementById("body").appendChild(row); 
