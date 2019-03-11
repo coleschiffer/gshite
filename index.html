@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<title></title>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style type="text/css">
+    a {
+      color: inherit !important;
+      text-decoration: none; 
+    }
+    a:hover {
+      color: inherit !important;
+      text-decoration: none; 
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 	<script type="text/javascript">
     fetch('https://spreadsheets.google.com/feeds/list/1E-_2LjgSQji5Jb1uy8ShdnmVPPjn9Z-1XJjLpya61UE/1/public/values?alt=json')
       .then(function(response) {
@@ -34,38 +45,88 @@
       }
       function element(profile) {
   		var element = document.createElement("div");
+      var content = document.createElement("div");
   		var size;
   		element.className = "col-sm";
-  		element.style.color = profile.gsx$color.$t;
-  	  	element.style.textAlign = profile.gsx$position.$t;
-  	  	element.style.backgroundColor = profile.gsx$background.$t;
-  	  	if(profile.gsx$size.$t == 4) {
-  	  		size = "h4"
-  	  	}
-  	  	if(profile.gsx$size.$t == 3) {
-  	  		size = "h3"
-  	  	}
-  	  	if(profile.gsx$size.$t == 2) {
-  	  		size = "h2"
-  	  	}
-  	  	if(profile.gsx$size.$t == 1) {
-  	  		size = "h1"
-  	  	}
-  		var text = document.createElement(size);
-  		text.innerHTML = profile.gsx$text.$t;
-  		 element.appendChild(text);
+      if(profile.gsx$color.$t) {
+        element.style.color = profile.gsx$color.$t;
+      }
+  		if(profile.gsx$position.$t) {
+        element.style.textAlign = profile.gsx$position.$t;
+      }
+	  	if(profile.gsx$size.$t == 4) {
+	  		size = "h4"
+	  	}
+	  	if(profile.gsx$size.$t == 3) {
+	  		size = "h3"
+	  	}
+	  	if(profile.gsx$size.$t == 2) {
+	  		size = "h2"
+	  	}
+	  	if(profile.gsx$size.$t == 1) {
+	  		size = "h1"
+	  	}
+      if(profile.gsx$text.$t) {
+        var text = document.createElement(size);
+        text.innerHTML = profile.gsx$text.$t;
+        content.appendChild(text);
+      }
   		if(profile.gsx$image.$t) {
-  			checkImage(profile.gsx$image.$t, function(){ var img = document.createElement('img');
-img.src = profile.gsx$image.$t; img.className = "img-fluid"; element.appendChild(img);}, function(){} );
+  		    checkImage(profile.gsx$image.$t, function(){ var img = document.createElement('img');
+          img.src = profile.gsx$image.$t; img.className = "img-fluid"; content.appendChild(img);}, function(){} );
   		}
+      if(profile.gsx$background.$t) {
+          checkImage(profile.gsx$background.$t, function(){ var img = document.createElement('img');
+          element.style.backgroundImage = "url('"+profile.gsx$background.$t+"')";}, function(){
+                    element.style.backgroundColor = profile.gsx$background.$t;
+          } );
+      }
+      if(profile.gsx$font.$t) {
+        WebFont.load({
+          google: {
+            families: [profile.gsx$font.$t]
+          }
+        });
+        element.style.fontFamily = profile.gsx$font.$t;      
+      }
+      if(profile.gsx$link.$t) {
+        var link = document.createElement("a");
+        link.href = profile.gsx$link.$t;
+        link.style.color
+        link.appendChild(content);
+        content = link;
+      }
+      if(profile.gsx$body.$t) {
+        var p = document.createElement("p");
+        p.innerHTML = profile.gsx$body.$t;
+        content.appendChild(p);
+      }
+      if(profile.gsx$embed.$t) {
+        var embed = document.createElement("div");
+        embed.className = "embed-responsive embed-responsive-16by9"
+        embed.innerHTML = profile.gsx$embed.$t;
+        content.appendChild(embed);
+      }
+      if(profile.gsx$audio.$t) {
+        var x = document.createElement("AUDIO");
+        x.setAttribute("src",profile.gsx$audio.$t);
+        x.setAttribute("controls", "controls");
+        if(profile.gsx$loop.$t) {
+          x.setAttribute("loop", true);
+        }
+        content.appendChild(x);
+
+
+      }
+      element.appendChild(content);
   		return element;
       }
      function checkImage(imageSrc, good, bad) {
-		var img = new Image();
-		img.onload = good; 
-		img.onerror = bad;
-		img.src = imageSrc;
-	}      
+    		var img = new Image();
+    		img.onload = good; 
+    		img.onerror = bad;
+    		img.src = imageSrc;
+	   }      
 	</script>
 </head>
 <body>
