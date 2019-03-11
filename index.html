@@ -47,14 +47,14 @@
   		var element = document.createElement("div");
       var content = document.createElement("div");
   		element.className = "col-sm";
-      if(profile.gsx$color.$t) {
+      if(profile.hasOwnProperty("gsx$color")&&profile.gsx$color.$t) {
         element.style.color = profile.gsx$color.$t;
       }
-  		if(profile.gsx$position.$t) {
+  		if(profile.hasOwnProperty('gsx$position')&&profile.gsx$position.$t) {
         element.style.textAlign = profile.gsx$position.$t;
       }
-      if(profile.gsx$text.$t) {
-        if(profile.gsx$size.$t) {
+      if(profile.hasOwnProperty('gsx$text')&&profile.gsx$text.$t) {
+        if(profile.hasOwnProperty('gsx$size')&&profile.gsx$size.$t) {
           var text = document.createElement("h"+profile.gsx$size.$t);
         }
         else {
@@ -63,17 +63,17 @@
         text.innerHTML = profile.gsx$text.$t;
         content.appendChild(text);
       }
-  		if(profile.gsx$image.$t) {
+  		if(profile.hasOwnProperty('gsx$image')&&profile.gsx$image.$t) {
   		    checkImage(profile.gsx$image.$t, function(){ var img = document.createElement('img');
           img.src = profile.gsx$image.$t; img.className = "img-fluid"; content.appendChild(img);}, function(){} );
   		}
-      if(profile.gsx$background.$t) {
+      if(profile.hasOwnProperty('gsx$background')&&profile.gsx$background.$t) {
           checkImage(profile.gsx$background.$t, function(){ var img = document.createElement('img');
           element.style.backgroundImage = "url('"+profile.gsx$background.$t+"')";}, function(){
                     element.style.backgroundColor = profile.gsx$background.$t;
           } );
       }
-      if(profile.gsx$font.$t) {
+      if(profile.hasOwnProperty('gsx$font')&&profile.gsx$font.$t) {
         WebFont.load({
           google: {
             families: [profile.gsx$font.$t]
@@ -81,43 +81,58 @@
         });
         element.style.fontFamily = profile.gsx$font.$t;      
       }
-      if(profile.gsx$link.$t) {
+      if(profile.hasOwnProperty('gsx$link')&&profile.gsx$link.$t) {
         var link = document.createElement("a");
         link.href = profile.gsx$link.$t;
         link.style.color
         link.appendChild(content);
         content = link;
       }
-      if(profile.gsx$body.$t) {
+      if(profile.hasOwnProperty('gsx$body')&&profile.gsx$body.$t) {
         var p = document.createElement("p");
         p.innerHTML = profile.gsx$body.$t;
         content.appendChild(p);
       }
-      if(profile.gsx$embed.$t) {
+      if(profile.hasOwnProperty('gsx$embed')&&profile.gsx$embed.$t) {
         var embed = document.createElement("div");
         embed.className = "embed-responsive embed-responsive-16by9"
         embed.innerHTML = profile.gsx$embed.$t;
         content.appendChild(embed);
       }
-      if(profile.gsx$audio.$t) {
-        var x = document.createElement("AUDIO");
-        x.setAttribute("src",profile.gsx$audio.$t);
-        x.setAttribute("controls", "controls");
-        if(profile.gsx$loop.$t) {
-          x.setAttribute("loop", true);
+      if(profile.hasOwnProperty('gsx$audio')&&profile.gsx$audio.$t) {
+        const audio = document.createElement('audio');
+        audio.src = profile.gsx$audio.$t;
+        audio.controls = true;
+        if(profile.hasOwnProperty('gsx$hidecontrols')&&profile.gsx$hidecontrols.$t) {
+          audio.controls = false;
         }
-        content.appendChild(x);
+        if(profile.hasOwnProperty('gsx$loop')&&profile.gsx$loop.$t) {
+          audio.loop = true;
+        }
+        if(profile.hasOwnProperty('gsx$autoplay')&&profile.gsx$autoplay.$t) {
+          audio.autoplay = true;
+        }
+        content.appendChild(audio);
       }
-      if(profile.gsx$video.$t) {
-        var x = document.createElement("VIDEO");
-        x.setAttribute("src",profile.gsx$video.$t);
-        x.setAttribute("controls", "controls");
-        x.style.width = "100%";
-        x.style.height = "auto";
-        if(profile.gsx$loop.$t) {
-          x.setAttribute("loop", true);
+      if(profile.hasOwnProperty('gsx$video')&&profile.gsx$video.$t) {
+        const video = document.createElement('video');
+        video.src = profile.gsx$video.$t;
+        video.controls = true;
+        video.style.width = "100%";
+        video.style.height = "auto";
+        if(profile.hasOwnProperty('gsx$hidecontrols')&&profile.gsx$hidecontrols.$t) {
+          video.controls = false;
         }
-        content.appendChild(x);
+        if(profile.hasOwnProperty('gsx$loop')&&profile.gsx$loop.$t) {
+          video.loop = true;
+        }
+        if(profile.hasOwnProperty('gsx$mute')&&profile.gsx$mute.$t) {
+        video.muted = true;
+        }
+        if(profile.hasOwnProperty('gsx$autoplay')&&profile.gsx$autoplay.$t) {
+          video.autoplay = true;
+        }
+        content.appendChild(video);
       }
       element.appendChild(content);
   		return element;
