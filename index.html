@@ -46,7 +46,6 @@
       function element(profile) {
   		var element = document.createElement("div");
       var content = document.createElement("div");
-  		var size;
   		element.className = "col-sm";
       if(profile.gsx$color.$t) {
         element.style.color = profile.gsx$color.$t;
@@ -54,20 +53,13 @@
   		if(profile.gsx$position.$t) {
         element.style.textAlign = profile.gsx$position.$t;
       }
-	  	if(profile.gsx$size.$t == 4) {
-	  		size = "h4"
-	  	}
-	  	if(profile.gsx$size.$t == 3) {
-	  		size = "h3"
-	  	}
-	  	if(profile.gsx$size.$t == 2) {
-	  		size = "h2"
-	  	}
-	  	if(profile.gsx$size.$t == 1) {
-	  		size = "h1"
-	  	}
       if(profile.gsx$text.$t) {
-        var text = document.createElement(size);
+        if(profile.gsx$size.$t) {
+          var text = document.createElement("h"+profile.gsx$size.$t);
+        }
+        else {
+          var text = document.createElement("h2");
+        }
         text.innerHTML = profile.gsx$text.$t;
         content.appendChild(text);
       }
@@ -115,18 +107,27 @@
           x.setAttribute("loop", true);
         }
         content.appendChild(x);
-
-
+      }
+      if(profile.gsx$video.$t) {
+        var x = document.createElement("VIDEO");
+        x.setAttribute("src",profile.gsx$video.$t);
+        x.setAttribute("controls", "controls");
+        x.style.width = "100%";
+        x.style.height = "auto";
+        if(profile.gsx$loop.$t) {
+          x.setAttribute("loop", true);
+        }
+        content.appendChild(x);
       }
       element.appendChild(content);
   		return element;
       }
-     function checkImage(imageSrc, good, bad) {
-    		var img = new Image();
-    		img.onload = good; 
-    		img.onerror = bad;
-    		img.src = imageSrc;
-	   }      
+      function checkImage(imageSrc, good, bad) {
+        var img = new Image();
+        img.onload = good; 
+        img.onerror = bad;
+        img.src = imageSrc;
+     }      
 	</script>
 </head>
 <body>
