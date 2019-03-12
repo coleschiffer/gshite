@@ -113,15 +113,6 @@ function element(profile) {
         video.controls = true;
         video.style.width = "100%";
         video.style.height = "auto";
-        if(profile.hasOwnProperty('gsx$hidecontrols')&&profile.gsx$hidecontrols.$t) {
-          video.controls = false;
-        }
-        if(profile.hasOwnProperty('gsx$loop')&&profile.gsx$loop.$t) {
-          video.loop = true;
-        }
-        if(profile.hasOwnProperty('gsx$mute')&&profile.gsx$mute.$t) {
-        video.muted = true;
-        }
         if(profile.hasOwnProperty('gsx$autoplay')&&profile.gsx$autoplay.$t) {
           video.autoplay = true;
         }
